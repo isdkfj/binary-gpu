@@ -8,7 +8,7 @@ class Gaussian:
         self.generator = torch.Generator()
 
     def defense(self, x1, *args):
-        return torch.randn(x1.size(), generator=self.generator) * self.eps
+        return torch.randn(x1.size(), generator=self.generator, device=x1.device) * self.eps
 
     def print_info(self, train_acc, test_acc, attack_acc):
         print('gaussian noise with eps = ', self.eps)
@@ -27,11 +27,11 @@ class Defense:
         Q = torch.linalg.solve(W[:self.d1, :].T, W.T)
         w = torch.mean(invW[:, self.binary_features], axis=1)
         # construct quadratic programming
-        mat = torch.zeros((self.d1 + 1, self.d1 + 1))
+        mat = torch.zeros((self.d1 + 1, self.d1 + 1), device=x1.device)
         mat[:self.d1, :self.d1] = 2 * Q @ Q.T
         mat[:self.d1, -1] = w
         mat[-1, :self.d1] = w
-        vec = torch.zeros(self.d1 + 1)
+        vec = torch.zeros(self.d1 + 1, device=x1.device)
         vec[-1] = 1
         sol = torch.linalg.solve(mat, vec)
         r = x[:, -1].reshape(-1, 1) - x1[:, :self.d1] @ w.reshape(-1, 1)
