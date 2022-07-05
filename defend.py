@@ -25,11 +25,10 @@ class Defense:
     def defense(self, x1, x, W):
         invW = torch.linalg.inv(W[:self.d1, :].T)
         #Q = torch.linalg.solve(W[:self.d1, :].T, W.T)
-        Q = invW @ W.T
         w = torch.mean(invW[:, self.binary_features], axis=1)
         # construct quadratic programming
         mat = torch.zeros((self.d1 + 1, self.d1 + 1), device=x1.device)
-        mat[:self.d1, :self.d1] = 2 * Q @ Q.T
+        mat[:self.d1, :self.d1] = torch.eye(self.d1, device=x1.device)#2 * Q @ Q.T
         mat[:self.d1, -1] = w
         mat[-1, :self.d1] = w
         vec = torch.zeros(self.d1 + 1, device=x1.device)
