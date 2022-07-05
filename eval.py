@@ -20,6 +20,9 @@ def eval(net, data, bf, use_gpu):
     with torch.no_grad():
         for i, (data, target) in enumerate(train_loader):
             X.append(data.numpy())
+            if use_gpu:
+                data = data.cuda()
+                target = target.cuda()
             output = net(data)
             loss = criterion(output, target)
             train_acc += accuracy(output, target).item() * len(data)
@@ -27,6 +30,9 @@ def eval(net, data, bf, use_gpu):
     with torch.no_grad():
         for i, (data, target) in enumerate(test_loader):
             X.append(data.numpy())
+            if use_gpu:
+                data = data.cuda()
+                target = target.cuda()
             output = net(data)
             loss = criterion(output, target)
             test_acc += accuracy(output, target).item() * len(data)
