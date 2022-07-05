@@ -10,10 +10,6 @@ def process_binary(X):
         s0 = np.sum(np.isclose(X[:, i], 0))
         s1 = np.sum(np.isclose(X[:, i], 1))
         if s0 + s1 == X.shape[0]:
-            if s0 > s1:
-                # swap 0 and 1 if there are more 0's
-                X[:, i] = 1 - X[:, i]
-                s0, s1 = s1, s0
             print('feature no.{} is binary, {}% are 1\'s'.format(i, s1 / X.shape[0] * 100))
 
 def load_data(dname, path, SEED):
