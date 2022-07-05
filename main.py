@@ -5,9 +5,11 @@ from eval import eval
 from defend import Gaussian, Defense
 from module import Net
 import numpy as np
+import torch
 
 args = get_args()
 set_random_seed(args.seed)
+use_gpu = args.cuda and torch.cuda.is_available()
 
 # last column of X is fabricated label
 train_X, test_X, train_Y, test_Y = load_data(args.data, args.path, args.seed)
@@ -51,8 +53,8 @@ def run_exp(d1, num_exp, mask):
     list_attack_acc = []
     for iter_exp in range(num_exp):
         net = Net(d1, train_X.shape[1] - d1 - 1, num_classes, hid, mask.defense)
-        train(net, (train_dataset, train_loader, validation_dataset, validation_loader), verbose=args.verbose)
-        train_acc, test_acc, attack_acc, idx = eval(net, (validation_dataset, validation_loader, test_dataset, test_loader), binary_features)
+        train(net, (train_dataset, train_loader, validation_dataset, validation_loader), verbose=args.verbose, use_gpu=use_gpu)
+        train_acc, test_acc, attack_acc, idx = eval(net, (validation_dataset, validation_loader, test_dataset, test_loader), binary_features, use_gpu=use_gpu)
         list_train_acc.append(train_acc)
         list_test_acc.append(test_acc)
         list_attack_acc.append(attack_acc)
