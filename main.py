@@ -64,7 +64,7 @@ def run_exp(d1, num_exp, mask):
     mask.print_info(list_train_acc, list_test_acc, list_attack_acc)
 
 if args.dm == 'gauss':
-    gauss = Gaussian(args.eps)
+    gauss = Gaussian(args.eps, use_gpu=use_gpu)
     run_exp(d1, args.repeat, gauss)
 elif args.dm == 'fake':
     fab = Defense(d1, binary_features)
