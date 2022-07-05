@@ -26,9 +26,11 @@ def prepare_dataset(train_X, train_Y, test_X, test_Y, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0, generator=torch.Generator())
     return train_dataset, train_loader, validation_dataset, validation_loader, test_dataset, test_loader
 
-def train(net, data, verbose=False):
+def train(net, data, verbose=False, use_gpu):
     train_dataset, train_loader, validation_dataset, validation_loader = data
     criterion = nn.CrossEntropyLoss()
+    if use_gpu:
+        criterion = criterion.cuda()
     optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30, 60, 90])
 
@@ -37,6 +39,9 @@ def train(net, data, verbose=False):
     for epoch in tqdm(range(1, num_epoch + 1)):
         for i, (data, target) in enumerate(train_loader):
             optimizer.zero_grad()
+            if use_gpu:
+                data = data.cuda()
+                target = target.cuda()
             output = net(data)
             loss = criterion(output, target)
             loss.backward()
@@ -48,9 +53,12 @@ def train(net, data, verbose=False):
                 total_loss = 0.0
                 total_acc = 0.0
                 for i, (data, target) in enumerate(validation_loader):
+                    if use_gpu:
+                        data = data.cuda()
+                        target = target.cuda()
                     output = net(data)
                     loss = criterion(output, target)
-                    total_loss += loss.item() * len(data)
+                    total_loss += loss.cpu().item() * len(data)
                     total_acc += accuracy(output, target).item() * len(data)
                 total_loss /= len(validation_dataset)
                 total_acc /= len(validation_dataset)
