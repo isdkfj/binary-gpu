@@ -53,6 +53,8 @@ def run_exp(d1, num_exp, mask):
     list_attack_acc = []
     for iter_exp in range(num_exp):
         net = Net(d1, train_X.shape[1] - d1 - 1, num_classes, hid, mask.defense)
+        if use_gpu:
+            net = net.cuda()
         train(net, (train_dataset, train_loader, validation_dataset, validation_loader), verbose=args.verbose, use_gpu=use_gpu)
         train_acc, test_acc, attack_acc, idx = eval(net, (validation_dataset, validation_loader, test_dataset, test_loader), binary_features, use_gpu=use_gpu)
         list_train_acc.append(train_acc)
