@@ -52,6 +52,7 @@ def load_data(dname, path, SEED):
                 df[attr] = encoder.transform(df[attr])
         X = df.values[:, 1:].astype('float')
         Y = df.values[:, 0].astype('int')
+        X[:, 3] = 1 - X[:, 3]
         process_binary(X)
         fake_label = np.random.randint(0, 2, (X.shape[0], 1))
         X = np.concatenate([X, fake_label], axis=1)
