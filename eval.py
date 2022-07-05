@@ -4,16 +4,18 @@ import numpy as np
 from utils import accuracy
 from attack import leverage_score_solve
 
-def eval(net, data, bf):
+def eval(net, data, bf, use_gpu):
     train_dataset, train_loader, test_dataset, test_loader = data
     criterion = nn.CrossEntropyLoss()
+    if use_gpu:
+        criterion = criterion.cuda()
     train_acc = 0.0
     test_acc = 0.0
     A = []
     X = []
     # extract intermediate output
     def hook_forward_fn(module, input, output):
-        A.append(output.numpy()[:, :net.d1])
+        A.append(output.cpu().numpy()[:, :net.d1])
     net.inter.register_forward_hook(hook_forward_fn)
     with torch.no_grad():
         for i, (data, target) in enumerate(train_loader):
