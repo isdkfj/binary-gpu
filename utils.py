@@ -18,6 +18,7 @@ def get_args():
     # experiment settings
     parser.add_argument('--repeat', type=int, help='number of trials', default=10)
     parser.add_argument('--verbose', action='store_true', help='print train accuracy and loss')
+    parser.add_argument('--cuda', action='store_true', help='use gpu for training')
     # defense method
     parser.add_argument('--dm', type=str, help='defense method', choices=['gauss', 'fake'], default='gauss')
     parser.add_argument('--eps', type=float, help='eps in gaussian defense', default=0.0)
