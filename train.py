@@ -26,7 +26,7 @@ def prepare_dataset(train_X, train_Y, test_X, test_Y, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0, generator=torch.Generator())
     return train_dataset, train_loader, validation_dataset, validation_loader, test_dataset, test_loader
 
-def train(net, data, verbose=False, use_gpu):
+def train(net, data, verbose=False, use_gpu=False):
     train_dataset, train_loader, validation_dataset, validation_loader = data
     criterion = nn.CrossEntropyLoss()
     if use_gpu:
