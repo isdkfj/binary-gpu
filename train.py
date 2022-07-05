@@ -36,7 +36,7 @@ def train(net, data, verbose=False, use_gpu=False):
 
     num_epoch = 100
 
-    for epoch in tqdm(range(1, num_epoch + 1)):
+    for epoch in range(1, num_epoch + 1):
         for i, (data, target) in enumerate(train_loader):
             optimizer.zero_grad()
             if use_gpu:
