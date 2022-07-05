@@ -3,9 +3,9 @@ import numpy as np
 from utils import print_stat
 
 class Gaussian:
-    def __init__(self, eps):
+    def __init__(self, eps, use_gpu=False):
         self.eps = eps
-        self.generator = torch.Generator()
+        self.generator = torch.Generator(device='cuda' if use_gpu else 'cpu')
 
     def defense(self, x1, *args):
         return torch.randn(x1.size(), generator=self.generator, device=x1.device) * self.eps
