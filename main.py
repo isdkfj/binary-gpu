@@ -36,7 +36,7 @@ elif args.data == 'nursery':
 elif args.data == 'covertype':
     num_classes = 7
     d1 = 14
-    hid = [2000, 1000, 600, 300]
+    hid = [500, 200, 100]
 
 binary_features = []
 for i in range (d1):
