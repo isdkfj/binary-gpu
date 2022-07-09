@@ -26,9 +26,9 @@ def prepare_dataset(train_X, train_Y, test_X, test_Y, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0, generator=torch.Generator())
     return train_dataset, train_loader, validation_dataset, validation_loader, test_dataset, test_loader
 
-def train(net, data, verbose=False, use_gpu=False, weight=None):
+def train(net, data, verbose=False, use_gpu=False):
     train_dataset, train_loader, validation_dataset, validation_loader = data
-    criterion = nn.CrossEntropyLoss(weight=weight)
+    criterion = nn.CrossEntropyLoss()
     if use_gpu:
         criterion = criterion.cuda()
     optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-4)
@@ -47,6 +47,9 @@ def train(net, data, verbose=False, use_gpu=False, weight=None):
             loss.backward()
             #nn.utils.clip_grad_value_(net.parameters(), 2)
             optimizer.step()
+            if loss.cpu().item() > 1 and epoch > 1:
+                print(loss.cpu().item())
+                print(target)
         scheduler.step()
         if verbose:
             with torch.no_grad():
