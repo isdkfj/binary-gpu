@@ -50,7 +50,7 @@ def train(net, data, verbose=False, use_gpu=False):
             if loss.cpu().item() > 1 and epoch > 1:
                 for i in range(data.shape[0]):
                     data_i = data[i].reshape(1, -1)
-                    target_i = target[i]
+                    target_i = target[i].reshape(1, )
                     output_i = net(data_i)
                     loss_i = criterion(output_i, target_i)
                     if loss_i.item() > 1:
