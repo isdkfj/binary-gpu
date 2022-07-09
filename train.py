@@ -47,7 +47,9 @@ def train(net, data, verbose=False, use_gpu=False):
             loss.backward()
             
             #nn.utils.clip_grad_value_(net.parameters(), 2)
+            print(loss.item())
             optimizer.step()
+            print(loss.item())
             if loss.cpu().item() > 1 and epoch > 1:
                 print(loss.item())
                 with torch.no_grad():
