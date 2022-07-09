@@ -26,7 +26,7 @@ def prepare_dataset(train_X, train_Y, test_X, test_Y, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0, generator=torch.Generator())
     return train_dataset, train_loader, validation_dataset, validation_loader, test_dataset, test_loader
 
-def train(net, data, verbose=False, use_gpu=False):
+def train(net, data, verbose=False, use_gpu=False, skip=False):
     train_dataset, train_loader, validation_dataset, validation_loader = data
     criterion = nn.CrossEntropyLoss()
     if use_gpu:
@@ -38,6 +38,8 @@ def train(net, data, verbose=False, use_gpu=False):
 
     for epoch in range(1, num_epoch + 1):
         for i, (data, target) in enumerate(train_loader):
+            if skip:
+                continue
             optimizer.zero_grad()
             if use_gpu:
                 data = data.cuda()
@@ -68,6 +70,8 @@ def train(net, data, verbose=False, use_gpu=False):
                 total_loss = 0.0
                 total_acc = 0.0
                 for i, (data, target) in enumerate(validation_loader):
+                    if skip:
+                        continue
                     if use_gpu:
                         data = data.cuda()
                         target = target.cuda()
