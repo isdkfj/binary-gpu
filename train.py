@@ -59,7 +59,7 @@ def train(net, data, verbose=False, use_gpu=False):
                         if loss_i.item() > 10:
                             print('data:', data_i)
                             print('target:', target_i)
-                            print(target[i, :])
+                            print(output[i, :])
                             print('output', output_i)
         scheduler.step()
         if verbose:
