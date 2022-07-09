@@ -26,9 +26,9 @@ def prepare_dataset(train_X, train_Y, test_X, test_Y, batch_size):
     test_loader = DataLoader(test_dataset, batch_size=batch_size, num_workers=0, generator=torch.Generator())
     return train_dataset, train_loader, validation_dataset, validation_loader, test_dataset, test_loader
 
-def train(net, data, verbose=False, use_gpu=False):
+def train(net, data, verbose=False, use_gpu=False, weight=None):
     train_dataset, train_loader, validation_dataset, validation_loader = data
-    criterion = nn.CrossEntropyLoss()
+    criterion = nn.CrossEntropyLoss(weight=weight)
     if use_gpu:
         criterion = criterion.cuda()
     optimizer = torch.optim.SGD(net.parameters(), lr=0.1, momentum=0.9, weight_decay=1e-4)
