@@ -74,6 +74,9 @@ def train(net, data, verbose=False, use_gpu=False):
                     loss = criterion(output, target)
                     total_loss += loss.cpu().item() * len(data)
                     total_acc += accuracy(output, target).item() * len(data)
+                    if epoch == 1 and i == 0:
+                        print(net(data[:2, :]))
+                        print(net(data[:3, :]))
                 total_loss /= len(validation_dataset)
                 total_acc /= len(validation_dataset)
                 print('epoch {} train loss:'.format(epoch), total_loss)
