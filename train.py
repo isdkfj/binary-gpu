@@ -45,7 +45,7 @@ def train(net, data, verbose=False, use_gpu=False):
             output = net(data)
             loss = criterion(output, target)
             loss.backward()
-            nn.utils.clip_grad_value_(net.parameters(), 2)
+            #nn.utils.clip_grad_value_(net.parameters(), 2)
             optimizer.step()
         scheduler.step()
         if verbose:
