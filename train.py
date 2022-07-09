@@ -54,8 +54,10 @@ def train(net, data, verbose=False, use_gpu=False):
                     output_i = net(data_i)
                     loss_i = criterion(output_i, target_i)
                     if loss_i.item() > 1:
-                        print(loss_i.item())
-                        print(data_i, target_i)
+                        print('loss:', loss_i.item())
+                        print('data:', data_i)
+                        print('target:', target_i)
+                        print('output', output_i)
         scheduler.step()
         if verbose:
             with torch.no_grad():
