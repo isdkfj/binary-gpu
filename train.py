@@ -64,14 +64,14 @@ def train(net, data, verbose=False, use_gpu=False, skip=False):
                                 print(output[j, :])
                                 print('output', output_j)
             optimizer.step()
+        if skip:
+            continue
         scheduler.step()
         if verbose:
             with torch.no_grad():
                 total_loss = 0.0
                 total_acc = 0.0
                 for i, (data, target) in enumerate(validation_loader):
-                    if skip:
-                        continue
                     if use_gpu:
                         data = data.cuda()
                         target = target.cuda()
