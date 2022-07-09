@@ -47,12 +47,12 @@ def train(net, data, verbose=False, use_gpu=False):
             loss.backward()
             
             #nn.utils.clip_grad_value_(net.parameters(), 2)
-            print(loss.item())
-            optimizer.step()
-            print(loss.item())
             if loss.cpu().item() > 1 and epoch > 1:
                 print(loss.item())
-                with torch.no_grad():
+            optimizer.step()
+            if loss.cpu().item() > 1 and epoch > 1:
+                print(loss.item())
+                '''with torch.no_grad():
                     for j in range(data.shape[0]):
                         data_j = data[j, :].reshape(1, -1)
                         target_j = target[j].reshape(1, )
@@ -64,7 +64,7 @@ def train(net, data, verbose=False, use_gpu=False):
                                 print('data:', data_j)
                                 print('target:', target_j)
                                 print(output[j, :])
-                                print('output', output_j)
+                                print('output', output_j)'''
         scheduler.step()
         if verbose:
             with torch.no_grad():
