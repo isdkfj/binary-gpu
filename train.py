@@ -48,7 +48,7 @@ def train(net, data, verbose=False, use_gpu=False):
             #nn.utils.clip_grad_value_(net.parameters(), 2)
             optimizer.step()
             if loss.cpu().item() > 1 and epoch > 1:
-                print(loss.cpu().item())
+                print(float(loss.cpu().detach()))
                 print(target)
         scheduler.step()
         if verbose:
