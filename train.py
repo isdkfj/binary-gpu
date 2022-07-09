@@ -48,7 +48,7 @@ def train(net, data, verbose=False, use_gpu=False):
             #nn.utils.clip_grad_value_(net.parameters(), 2)
             optimizer.step()
             if loss.cpu().item() > 1 and epoch > 1:
-                for i in data.shape[0]:
+                for i in range(data.shape[0]):
                     data_i = data[i].reshape(1, -1)
                     target_i = target[i].reshape(1, -1)
                     output_i = net(data_i)
