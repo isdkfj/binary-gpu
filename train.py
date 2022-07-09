@@ -49,18 +49,19 @@ def train(net, data, verbose=False, use_gpu=False):
             optimizer.step()
             if loss.cpu().item() > 1 and epoch > 1:
                 print(loss.item())
-                for i in range(data.shape[0]):
-                    data_i = data[i, :].reshape(1, -1)
-                    target_i = target[i].reshape(1, )
-                    output_i = net(data_i)
-                    loss_i = criterion(output_i, target_i)
-                    if loss_i.item():
-                        print('loss:', loss_i.item())
-                        if loss_i.item() > 10:
-                            print('data:', data_i)
-                            print('target:', target_i)
-                            print(output[i, :])
-                            print('output', output_i)
+                with torch.no_grad():
+                    for i in range(data.shape[0]):
+                        data_i = data[i, :].reshape(1, -1)
+                        target_i = target[i].reshape(1, )
+                        output_i = net(data_i)
+                        loss_i = criterion(output_i, target_i)
+                        if loss_i.item():
+                            print('loss:', loss_i.item())
+                            if loss_i.item() > 10:
+                                print('data:', data_i)
+                                print('target:', target_i)
+                                print(output[i, :])
+                                print('output', output_i)
         scheduler.step()
         if verbose:
             with torch.no_grad():
@@ -74,9 +75,6 @@ def train(net, data, verbose=False, use_gpu=False):
                     loss = criterion(output, target)
                     total_loss += loss.cpu().item() * len(data)
                     total_acc += accuracy(output, target).item() * len(data)
-                    if epoch == 1 and i == 0:
-                        print(net(data[:2, :]))
-                        print(net(data[:3, :]))
                 total_loss /= len(validation_dataset)
                 total_acc /= len(validation_dataset)
                 print('epoch {} train loss:'.format(epoch), total_loss)
