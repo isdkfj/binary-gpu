@@ -45,8 +45,6 @@ def train(net, data, verbose=False, use_gpu=False):
             output = net(data)
             loss = criterion(output, target)
             loss.backward()
-            #nn.utils.clip_grad_value_(net.parameters(), 2)
-            optimizer.step()
             if loss.cpu().item() > 1 and epoch > 1:
                 print(loss.item())
                 with torch.no_grad():
@@ -62,6 +60,8 @@ def train(net, data, verbose=False, use_gpu=False):
                                 print('target:', target_j)
                                 print(output[j, :])
                                 print('output', output_j)
+            #nn.utils.clip_grad_value_(net.parameters(), 2)
+            optimizer.step()
         scheduler.step()
         if verbose:
             with torch.no_grad():
