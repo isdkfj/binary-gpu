@@ -50,18 +50,18 @@ def train(net, data, verbose=False, use_gpu=False):
             if loss.cpu().item() > 1 and epoch > 1:
                 print(loss.item())
                 with torch.no_grad():
-                    for i in range(data.shape[0]):
-                        data_i = data[i, :].reshape(1, -1)
-                        target_i = target[i].reshape(1, )
-                        output_i = net(data_i)
-                        loss_i = criterion(output_i, target_i)
-                        if loss_i.item():
-                            print('loss:', loss_i.item())
-                            if loss_i.item() > 10:
-                                print('data:', data_i)
-                                print('target:', target_i)
-                                print(output[i, :])
-                                print('output', output_i)
+                    for j in range(data.shape[0]):
+                        data_j = data[j, :].reshape(1, -1)
+                        target_j = target[j].reshape(1, )
+                        output_j = net(data_j)
+                        loss_j = criterion(output_j, target_j)
+                        if loss_j.item() > 10:
+                            print('loss:', loss_j.item())
+                            if loss_j.item() > 10:
+                                print('data:', data_j)
+                                print('target:', target_j)
+                                print(output[j, :])
+                                print('output', output_j)
         scheduler.step()
         if verbose:
             with torch.no_grad():
