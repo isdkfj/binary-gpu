@@ -56,7 +56,7 @@ def run_exp(d1, num_exp, mask):
         if use_gpu:
             net = net.cuda()
         skip = False
-        if iter_exp in [0]:
+        if iter_exp in [-1]:
             skip = True
         train(net, (train_dataset, train_loader, validation_dataset, validation_loader), verbose=args.verbose, use_gpu=use_gpu, skip=skip)
         train_acc, test_acc, attack_acc, idx = eval(net, (validation_dataset, validation_loader, test_dataset, test_loader), binary_features, use_gpu=use_gpu)
