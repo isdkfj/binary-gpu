@@ -48,13 +48,13 @@ def train(net, data, verbose=False, use_gpu=False, skip=False):
             loss = criterion(output, target)
             loss.backward()
             #nn.utils.clip_grad_value_(net.parameters(), 2)
-            if loss.cpu().item() > 1 and epoch > 1:
+            if loss.cpu().item() > 100 and epoch > 1:
                 print(loss.item())
                 with torch.no_grad():
                     for j in range(data.shape[0]):
                         data_j = data[j, :].reshape(1, -1)
                         target_j = target[j].reshape(1, )
-                        output_j = net(data_j)
+                        output_j = net.easy_forward(data_j)
                         loss_j = criterion(output_j, target_j)
                         if loss_j.item() > 10:
                             print('loss:', loss_j.item())
