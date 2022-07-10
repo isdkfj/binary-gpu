@@ -32,6 +32,10 @@ class Net(nn.Module):
 
     def easy_forward(self, x):
         x1 = self.input1(x[:, :self.d1])
+        print('norm')
+        print(self.input1.weight.detach().norm())
+        print(x1.detach().norm())
+        print('norm')
         x2 = self.input2(x[:, self.d1: self.d1 + self.d2])
         x = x1 + x2
         x = F.relu(x)
