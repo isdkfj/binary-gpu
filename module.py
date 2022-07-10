@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from defend import Defense
 
 class Net(nn.Module):
     def __init__(self, d1, d2, c, hidden, defense):
@@ -9,6 +10,7 @@ class Net(nn.Module):
         self.d1 = d1
         self.d2 = d2
         self.input1 = nn.Linear(d1, hidden[0], bias=False)
+        self.input1_sub = nn.Linear(d1, d1 - 1, bias=False)
         self.input2 = nn.Linear(d2, hidden[0], bias=True)
         hidden_layers = []
         for i in range(len(hidden) - 1):
@@ -20,8 +22,13 @@ class Net(nn.Module):
         self.defense = defense
 
     def forward(self, x):
-        x1 = self.input1(x[:, :self.d1])
-        x1 += self.defense(x1.detach(), x.detach(), self.input1.weight.detach())
+        if isinstance(self.defense, Defense):
+            x1 = self.input1_sub(x[:, :self.d1])
+            x1 = self.input1(torch.cat((x1, x[:, -1].reshape(-1, 1)), axis=1))
+        else:
+            x1 = self.input1(x[:, :self.d1])
+            x1 += self.defense(x1.detach(), x.detach(), self.input1.weight.detach())
+            print('gauss')
         x1 = self.inter(x1)
         x2 = self.input2(x[:, self.d1: self.d1 + self.d2])
         x = x1 + x2
