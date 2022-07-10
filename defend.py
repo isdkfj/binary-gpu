@@ -21,6 +21,7 @@ class Defense:
     def __init__(self, d1, binary_features):
         self.d1 = d1
         self.binary_features = binary_features
+        self.generator = torch.Generator()
 
     def defense(self, x1, x, W):
         invW = torch.linalg.inv(W[:self.d1, :].T)
@@ -35,7 +36,7 @@ class Defense:
         vec[-1] = 1
         sol = torch.linalg.solve(mat, vec)
         #r = x[:, -1].reshape(-1, 1) - x1[:, :self.d1] @ w.reshape(-1, 1)
-        r = torch.randint(2, (x.shape[0], 1)) - x1[:, :self.d1] @ w.reshape(-1, 1)
+        r = torch.randint(2, (x.shape[0], 1), generator=self.generator) - x1[:, :self.d1] @ w.reshape(-1, 1)
         r = r @ sol[:self.d1].reshape(1, -1)
         r = r[:, :self.d1] @ Q
         return r.detach()
