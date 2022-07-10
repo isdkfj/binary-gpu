@@ -29,3 +29,12 @@ class Net(nn.Module):
         x = self.hidden(x)
         x = self.final(x)
         return x
+
+    def easy_forward(self, x):
+        x1 = self.input1(x[:, :self.d1])
+        x2 = self.input2(x[:, self.d1: self.d1 + self.d2])
+        x = x1 + x2
+        x = F.relu(x)
+        x = self.hidden(x)
+        x = self.final(x)
+        return x
