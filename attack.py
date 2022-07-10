@@ -1,5 +1,6 @@
 import numpy as np
 from numba import jit
+from tqdm import tqdm
 
 # create a enumeration matrix
 def create_enum(d):
@@ -45,7 +46,7 @@ def global_minl2(A, x):
 def leverage_score_solve(A, it, k):
     sol, val = None, None
     # run several iterations
-    for i in range(it):
+    for i in tqdm(range(it)):
         x = leverage_score_sampling(A, k)
         p, v = global_minl2(A, x)
         if val is None or (v is not None and v < val):
