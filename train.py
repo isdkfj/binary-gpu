@@ -56,9 +56,9 @@ def train(net, data, verbose=False, use_gpu=False, skip=False):
                         target_j = target[j].reshape(1, )
                         output_j = net.easy_forward(data_j)
                         loss_j = criterion(output_j, target_j)
-                        if loss_j.item() > 10:
+                        if loss_j.item() > 300:
                             print('loss:', loss_j.item())
-                            if loss_j.item() > 10:
+                            if loss_j.item() > 300:
                                 print('data:', data_j)
                                 print('target:', target_j)
                                 print(output[j, :])
