@@ -35,8 +35,10 @@ elif args.data == 'nursery':
     hid = [600, 300, 100]
 elif args.data == 'covertype':
     num_classes = 7
-    d1 = 14
+    d1 = 10
     hid = [200, 200, 200]
+    train_X[:, [6, 7, 8, 9, 10, 11, 12, 13]] = train_X[:, [10, 11, 12, 13, 6, 7, 8, 9]]
+    test_X[:, [6, 7, 8, 9, 10, 11, 12, 13]] = test_X[:, [10, 11, 12, 13, 6, 7, 8, 9]]
 
 binary_features = []
 for i in range (d1):
