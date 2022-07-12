@@ -48,7 +48,8 @@ def eval(net, data, bf, use_gpu):
     rec = np.dot(A, sol.reshape(A.shape[1], 1))
     print('attack acc w.r.t. fake label:', np.sum(np.isclose(X[:, -1].reshape(-1, 1), rec > 0.5)) / X.shape[0])
     idx, best_acc = 0, 0
-    for i in range(net.d1):
+    #for i in range(net.d1):
+    for i in bf:
         acc = np.sum(np.isclose(X[:, i].reshape(-1, 1), rec > 0.5)) / X.shape[0]
         if acc > best_acc:
             idx, best_acc = i, acc
