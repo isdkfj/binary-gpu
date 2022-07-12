@@ -9,8 +9,8 @@ class Net(nn.Module):
         # d1 for passive party, d2 for active party
         self.d1 = d1
         self.d2 = d2
-        self.input1 = nn.Linear(d1 - 1, hidden[0], bias=False)
-        self.input1_sub = nn.Linear(d1, d1 - 1, bias=False)
+        self.input1 = nn.Linear(d1 - 2, hidden[0], bias=False)
+        self.input1_sub = nn.Linear(d1, d1 - 2, bias=False)
         self.input2 = nn.Linear(d2, hidden[0], bias=True)
         hidden_layers = []
         for i in range(len(hidden) - 1):
@@ -25,7 +25,7 @@ class Net(nn.Module):
         if True or isinstance(self.defense, Defense):
             x1 = self.input1_sub(x[:, :self.d1])
             #x1 = self.input1(torch.cat((x1, x[:, -1].reshape(-1, 1)), axis=1))
-            x1 += self.defense(x1.detach(), x.detach(), self.input1.weight.detach())
+            #x1 += self.defense(x1.detach(), x.detach(), self.input1.weight.detach())
             x1 = self.input1(x1)
         else:
             x1 = self.input1(x[:, :self.d1])
