@@ -33,8 +33,8 @@ def global_minl2(A, x):
     for i in range(x.shape[0]):
         b = np.dot(A, x[i, :])
         b = (b > 0.5)
-        #if b.mean() < 0.4:
-        #    continue
+        if b.mean() < 0.4:
+            continue
         b = b.astype(np.float32)
         y = np.linalg.solve(cov, np.dot(A.T, b))
         b = np.dot(A, y)
