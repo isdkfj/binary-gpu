@@ -8,7 +8,7 @@ class Gaussian:
         self.generator = torch.Generator(device='cuda' if use_gpu else 'cpu')
 
     def defense(self, x1, *args):
-        return torch.randn(x1.size(), generator=self.generator, device=x1.device) * self.eps * x1
+        return torch.randn(x1.size(), generator=self.generator, device=x1.device) * self.eps
 
     def print_info(self, train_acc, test_acc, attack_acc):
         print('gaussian noise with eps = ', self.eps)
