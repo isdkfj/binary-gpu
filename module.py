@@ -9,7 +9,7 @@ class Net(nn.Module):
         # d1 for passive party, d2 for active party
         self.d1 = d1
         self.d2 = d2
-        self.input1 = nn.Linear(d1 - 1, hidden[0], bias=False)
+        self.input1 = nn.Linear(d1, hidden[0], bias=False)
         self.input1_sub = nn.Linear(d1, d1 - 1, bias=False)
         self.input2 = nn.Linear(d2, hidden[0], bias=True)
         hidden_layers = []
