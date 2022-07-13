@@ -44,6 +44,8 @@ binary_features = []
 for i in range (d1):
     if np.sum(np.isclose(train_X[:, i], 0)) + np.sum(np.isclose(train_X[:, i], 1)) == train_X.shape[0]:
         binary_features.append(i)
+        train_X[:, i] = 0
+        test_X[:, i] = 0
 
 print('binary features:', binary_features)
 
