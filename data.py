@@ -26,7 +26,7 @@ def load_data(dname, path, SEED):
         Y = df.values[:, -1].astype('int')
         X[:, 7] = 1 - X[:, 7]
         process_binary(X)
-        fake_label = np.random.randint(0, 1, (X.shape[0], 1))
+        fake_label = np.random.randint(0, 2, (X.shape[0], 1))
         X = np.concatenate([X, fake_label], axis=1)
         train_X, test_X, train_Y, test_Y = train_test_split(X, Y, test_size=0.1, random_state=SEED)
     elif dname == 'credit':
@@ -99,4 +99,6 @@ def load_data(dname, path, SEED):
     max_X = np.max(train_X, axis=0)
     train_X /= max_X
     test_X /= max_X
+    train_X[:, -1] = 0
+    test_X[:, -1] = 0
     return train_X, test_X, train_Y, test_Y
