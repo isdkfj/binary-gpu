@@ -99,6 +99,6 @@ def load_data(dname, path, SEED):
     max_X = np.max(train_X, axis=0)
     train_X /= max_X
     test_X /= max_X
-    train_X[:, -1] = 0
-    test_X[:, -1] = 0
+    #train_X[:, -1] = 0
+    #test_X[:, -1] = 0
     return train_X, test_X, train_Y, test_Y
