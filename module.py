@@ -22,7 +22,7 @@ class Net(nn.Module):
         self.defense = defense
 
     def forward(self, x):
-        if False:
+        if True:
             x1 = self.input1_sub(x[:, :self.d1])
             x1 = self.input1(torch.cat((x1, x[:, -1].reshape(-1, 1)), axis=1))
             #x1 += self.defense(x1.detach(), x.detach(), self.input1.weight.detach())
