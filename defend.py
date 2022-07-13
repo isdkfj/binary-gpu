@@ -35,8 +35,7 @@ class Defense:
         vec = torch.zeros(self.d1 + 1, device=x1.device)
         vec[-1] = 1
         sol = torch.linalg.solve(mat, vec)
-        #r = x[:, -1].reshape(-1, 1) - x1[:, :self.d1] @ w.reshape(-1, 1)
-        r = torch.randint(2, (x.shape[0], 1), generator=self.generator) - x1[:, :self.d1] @ w.reshape(-1, 1)
+        r = x[:, -1].reshape(-1, 1) - x1[:, :self.d1] @ w.reshape(-1, 1)
         r = r @ sol[:self.d1].reshape(1, -1)
         r = r[:, :self.d1] @ Q
         return r.detach()
